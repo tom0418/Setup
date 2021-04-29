@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  db:
+    build:
+      context: ./mysql
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=development
+      - MYSQL_PASSWORD=development
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+    networks:
+      - default
+  web: &web
+    build:
+      context: .
+    command: ./run_server.sh
+    ports:
+      - '3000:3000'
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USERNAME=development
+      - MYSQL_PASSWORD=development
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+    volumes:
+      - .:/app:cached
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - rails_cache:/app/tmp/cache
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
+    networks:
+      - default
+    tmpfs:
+      - /tmp
+  webpacker:
+    <<: *web
+    command: bin/webpack-dev-server
+    ports:
+      - '3035:3035'
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    depends_on:
+      - web
+volumes:
+  bundle:
+    driver: local
+  node_modules:
+    driver: local
+  packs:
+    driver: local
+  rails_cache:
+    driver: local
