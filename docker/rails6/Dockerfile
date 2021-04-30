@@ -6,10 +6,10 @@ ENV LANG C.UTF-8
 
 # 必要なパッケージのインストール
 RUN apt-get update -qq && \
-		apt-get install -y build-essential \
-											 default-mysql-client \
-											 imagemagick \
-											 apt-transport-https
+    apt-get install -y build-essential \
+                       default-mysql-client \
+                       imagemagick \
+                       apt-transport-https
 
 # 作業ディレクトリの作成
 RUN mkdir /app
