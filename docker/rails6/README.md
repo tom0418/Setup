@@ -1,6 +1,6 @@
 # 開発環境セットアップ
 
-Docker Compose を使用して Rails5 / MySQL5.7 のアプリをセットアップ〜起動する手順です。
+Docker Compose を使用して Rails6 / MySQL5.7 のアプリをセットアップ〜起動する手順です。
 
 ## はじめに
 
@@ -8,7 +8,7 @@ Docker Compose を使用して Rails5 / MySQL5.7 のアプリをセットアッ�
 
 ## セットアップ
 
-### Rails5 + MySQL5.7
+### Rails6 + MySQL5.7
 
 1. Rails プロジェクトを作成
 
@@ -23,7 +23,7 @@ Docker Compose を使用して Rails5 / MySQL5.7 のアプリをセットアッ�
       adapter: mysql2
       encoding: utf8mb4
       pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
-      username: <%= ENV.fetch('MYSQL_USER') { 'root' } %>
+      username: <%= ENV.fetch('MYSQL_USERNAME') { 'root' } %>
       password: <%= ENV.fetch('MYSQL_PASSWORD') { 'password' } %>
       host: <%= ENV.fetch('MYSQL_HOST') { 'db' } %>
     ```
