@@ -59,9 +59,10 @@ Docker Compose を使用して Rails6 / MySQL5.7 の開発環境をセットア�
     ```
 
 1. コンテナを立ち上げる
-   ```
+
+    ```shell
     $ docker compose up
-    ``````
+    ```
 
 1. データベースを作成
 
