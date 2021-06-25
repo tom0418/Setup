@@ -66,7 +66,7 @@ Docker Compose を使用して Rails6（APIモード） / MySQL5.7 の開発環�
 1. データベースを作成
 
     ```shell
-    $ docker compose run --rm web rails db:create
+    $ docker compose run --rm api rails db:create
     ```
 
 1. 起動確認
