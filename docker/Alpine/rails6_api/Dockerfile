@@ -16,7 +16,8 @@ RUN apk add --no-cache --virtual build-deps \
         gcc \
         libc-dev \
         mariadb-dev \
-        nodejs~=14.17.1 \
+        tzdata \
+        nodejs~=14 \
         yarn~=1.22.10 \
         imagemagick6-dev \
         less && \
