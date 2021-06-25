@@ -1,0 +1,39 @@
+# Ignore bundler config and downloaded libraries.
+/.bundle
+/vendor/bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+/storage/*
+!/storage/.keep
+/coverage/
+/public/assets
+/public/packs
+/public/packs-test
+/node_modules
+
+# Ignore yarn log files
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# Ignore byebug_history
+.byebug_history
+
+# Ignore mysql volume optionally created by docker-compose
+/db/mysql
+
+# Ignore IDE files
+/.idea/
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
+# Ignore Apple files
+.DS_Store
