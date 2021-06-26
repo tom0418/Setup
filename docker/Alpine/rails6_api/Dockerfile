@@ -20,6 +20,7 @@ RUN apk add --no-cache --virtual build-deps \
         nodejs~=14 \
         yarn~=1.22.10 \
         imagemagick6-dev \
+        git \
         less && \
     rm -rf /usr/lib/libmysqld* && \
     rm -rf /usr/bin/mysql*
