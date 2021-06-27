@@ -1,11 +1,8 @@
-" -------------------------------------
-" settings
-"" ------------------------------------
+"" 基本設定
 " エンコード
-set encoding=utf-8
-set fileencoding=utf-8
+set fenc=utf-8
 
-" 入力モード中に素早くJJと入力した場合はESCとみなす
+"入力モード中に素早くJJと入力した場合はESCとみなす
 inoremap jj <Esc>
 
 " x キー削除でデフォルトレジスタに入れない
@@ -105,4 +102,29 @@ vnoremap v ^$h
 " 選択範囲のインデントを連続して変更する
 vnoremap < <gv
 vnoremap > >gv
+
+"" プラグイン
+" IdeaVim-EasyMotion
+set easymotion
+" sで開始
+nmap s <Plug>(easymotion-s2)
+
+" surround
+set surround
+
+" multiple-cursors
+set multiple-cursors
+" Ctrl+kで開始
+map <C-k> <A-n>
+
+" commentary
+set commentary
+
+" ReplaceWithRegister
+set ReplaceWithRegister
+" _で開始 ダブルクォーテーションの中を置換したい場合は _i"
+map _ gr
+
+" argtextobj
+set argtextobj
 
