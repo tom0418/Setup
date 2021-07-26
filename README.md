@@ -7,7 +7,7 @@
 |      directory       |                    description                   |
 |:--------------------:|:------------------------------------------------:|
 |   [docker][docker]   |      Dockerによる開発環境のボイラープレート      |
-| [neovim]() | neovimの設定ファイル |
+| [neovim][neovim] | neovimの設定ファイル |
 | [template][template] | プロジェクト作成時に使用するファイルテンプレート |
 
 [docker]:https://github.com/tom0418/Setup/tree/main/docker
