@@ -1,3 +1,11 @@
+" 文字コード
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+scriptencoding utf-8
+set bomb
+set binary
+
 " Pythonのパス指定
 let g:python_host_prog = $PYENV_ROOT . '/versions/py2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT . '/versions/py3/bin/python'
@@ -14,47 +22,69 @@ let g:loaded_perl_provider = 0
 "-------------------------------------------------------------------------------
 " Plugin
 "-------------------------------------------------------------------------------
+
+" NeoVim, VSCodeの判定
+function! Cond(Cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:Cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
 call plug#begin('~/.config/nvim/plugged')
 
+" NeoVimでのみ使用するプラグイン
 " Color Scheme
-Plug 'shaunsingh/nord.nvim'
+Plug 'shaunsingh/nord.nvim', Cond(!exists('g:vscode'))
 
 " treesitter
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter', Cond(!exists('g:vscode'), { 'do': 'TSUpdate' })
 
 " ステータスライン
-Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim', Cond(!exists('g:vscode'))
 
 " 不要な空白を可視化・削除
-Plug 'ntpeters/vim-better-whitespace'
+Plug 'ntpeters/vim-better-whitespace', Cond(!exists('g:vscode'))
 
 " インデントの可視化
-Plug 'Yggdroot/indentLine'
+Plug 'Yggdroot/indentLine', Cond(!exists('g:vscode'))
 
 " ファイルエクスプローラ
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" インクリメンタルサーチ
-Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree', Cond(!exists('g:vscode'), { 'on': 'NERDTreeToggle' })
 
 " Git操作
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive', Cond(!exists('g:vscode'))
 
 " Gitの差分表示（ファイル上）
-Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter', Cond(!exists('g:vscode'))
 
 " Gitの差分表示（ファイルエクスプローラ上）
-Plug 'xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+Plug 'xuyuanp/nerdtree-git-plugin', Cond(!exists('g:vscode'), { 'on': 'NERDTreeToggle' })
 
 " 他言語パック
-Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot', Cond(!exists('g:vscode'))
 
 " if文などを自動で閉じる
-Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-endwise', Cond(!exists('g:vscode'))
 
 " カッコなどを自動で閉じる
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs', Cond(!exists('g:vscode'))
 
+" コメントアウト
+Plug 'tpope/vim-commentary', Cond(!exists('g:vscode'))
+
+" ウィンドウサイズの変更
+Plug 'simeji/winresizer', Cond(!exists('g:vscode'))
+
+" LSP
+Plug 'neoclide/coc.nvim', Cond(!exists('g:vscode'), { 'branch': 'release' })
+
+" NeoVimとVSCodeで異なるプラグインを使用する
+" ファイル内ジャンプ（NeoVim）
+Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
+
+" ファイル内ジャンプ（VSCode）
+Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'))
+
+" NeoVim, VSCodeの両方で使用するプラグイン
 " カッコで囲む・カッコを変更する
 Plug 'tpope/vim-surround'
 
@@ -70,48 +100,44 @@ Plug 'tpope/vim-repeat'
 " 選択範囲を拡縮する
 Plug 'terryma/vim-expand-region'
 
-" ファイル内ジャンプ
-Plug 'easymotion/vim-easymotion'
-
-" ウィンドウサイズの変更
-Plug 'simeji/winresizer'
-
-" コメントアウト
-Plug 'tpope/vim-commentary'
-
-" LSP
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" インクリメンタルサーチ
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
 "-------------------------------------------------------------------------------
 " Plugin Settings
 "-------------------------------------------------------------------------------
-" treesitter
+if exists('g:vscode')
+  " vim-easymotion
+  nmap s <Plug>(easymotion-s2)
+else
+  " treesitter
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
-  highlight = {
-    enable = true,
-    additional_vim_regex_highlighting = false,
-  },
-}
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = "maintained",
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+  }
 EOF
 
-" lightline.vim
-let g:lightline = { 'colorscheme': 'nord' }
+  " lightline.vim
+  let g:lightline = { 'colorscheme': 'nord' }
 
-" Vim Better Whitespace
-let g:better_whitespace_enable=1
-let g:strip_whitespace_on_save=1
-let g:strip_whitespace_confirm=0
-let g:strip_whitelines_at_eof=1
+  " Vim Better Whitespace
+  let g:better_whitespace_enable=1
+  let g:strip_whitespace_on_save=1
+  let g:strip_whitespace_confirm=0
+  let g:strip_whitelines_at_eof=1
 
-" NERDTree
-nmap <C-f> :NERDTreeToggle<CR>
+  " NERDTree
+  nmap <C-f> :NERDTreeToggle<CR>
+
+  " vim-easymotion
+  nmap s <Plug>(easymotion-overwin-f2)
+endif
 
 " vim-operator-replace
 nmap _ <Plug>(operator-replace)
@@ -119,9 +145,6 @@ nmap _ <Plug>(operator-replace)
 " vim-expand-region
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-
-" vim-easymotion
-nmap s <Plug>(easymotion-overwin-f2)
 
 "-------------------------------------------------------------------------------
 " Shortcut
@@ -132,13 +155,6 @@ tnoremap <silent> <ESC> <C-\><C-n>
 "-------------------------------------------------------------------------------
 " 基本設定
 "-------------------------------------------------------------------------------
-" 文字コード
-set encoding=utf-8
-set fileencoding=utf-8
-set fileencodings=utf-8
-set bomb
-set binary
-
 " 全角記号の位置ずれ対応
 set ambiwidth=double
 
@@ -175,32 +191,37 @@ set splitbelow
 "-------------------------------------------------------------------------------
 " 表示設定
 "-------------------------------------------------------------------------------
-" 行番号の表示
-set number
+if !exists('g:vscode')
+  " 行番号の表示
+  set number
 
-" 右下に行・列の番号を表示
-set ruler
+  " 右下に行・列の番号を表示
+  set ruler
 
-" タイトル表示
-set title
+  " タイトル表示
+  set title
 
-" 不可視文字を表示
-set list
+  " 不可視文字を表示
+  set list
 
-" 不可視文字の置き換え設定
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+  " 表示できない文字を16進数で表示
+  set display=uhex
 
-" 表示できない文字を16進数で表示
-set display=uhex
+  " 不可視文字の置き換え設定
+  set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 
-" 対応括弧に<と>のペアを追加
-set matchpairs& matchpairs+=<:>
+  " 常にステータスラインを表示
+  set laststatus=2
 
-" 常にステータスラインを表示
-set laststatus=2
+  " ステータスラインの表示内容
+  set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 
-" ステータスラインの表示内容
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+  " 対応括弧に<と>のペアを追加
+  set matchpairs& matchpairs+=<:>
+
+  " カラースキーマ
+  colorscheme nord
+endif
 
 " カーソル行をハイライト
 set cursorline
@@ -219,9 +240,6 @@ set whichwrap=b,s,h,l,<,>,[,]
 
 " 行を折り返さない
 set nowrap
-
-" カラースキーマ
-colorscheme nord
 
 "-------------------------------------------------------------------------------
 " 検索/置換設定
