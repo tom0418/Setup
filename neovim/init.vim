@@ -68,9 +68,6 @@ Plug 'tpope/vim-endwise', Cond(!exists('g:vscode'))
 " カッコなどを自動で閉じる
 Plug 'jiangmiao/auto-pairs', Cond(!exists('g:vscode'))
 
-" コメントアウト
-Plug 'tpope/vim-commentary', Cond(!exists('g:vscode'))
-
 " ウィンドウサイズの変更
 Plug 'simeji/winresizer', Cond(!exists('g:vscode'))
 
@@ -87,6 +84,9 @@ Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'))
 " NeoVim, VSCodeの両方で使用するプラグイン
 " カッコで囲む・カッコを変更する
 Plug 'tpope/vim-surround'
+
+" コメントアウト
+Plug 'tpope/vim-commentary'
 
 " オペレータを定義する
 Plug 'kana/vim-operator-user'
@@ -151,6 +151,14 @@ vmap <C-v> <Plug>(expand_region_shrink)
 "-------------------------------------------------------------------------------
 inoremap <silent> jj <ESC>
 tnoremap <silent> <ESC> <C-\><C-n>
+
+if exists('g:vscode')
+  " VSCodeでvim-commentaryを使う
+  xmap gc  <Plug>VSCodeCommentary
+  nmap gc  <Plug>VSCodeCommentary
+  omap gc  <Plug>VSCodeCommentary
+  nmap gcc <Plug>VSCodeCommentaryLine
+endif
 
 "-------------------------------------------------------------------------------
 " 基本設定
