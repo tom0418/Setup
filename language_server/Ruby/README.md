@@ -18,6 +18,7 @@ $ docker build -t vscode-solargraph:x.x.x .
 ```shell
 $ docker run -d --rm -p 7658:7658 --name solargraph vscode-solargraph
 ```
+
 3. Setup Visual Studio Code
 
 ```json
