@@ -8,6 +8,7 @@ ENV APP_ROOT /usr/src/app
 # プロジェクトのGemをインストールするために必要なパッケージのインストール
 RUN apk add --no-cache --virtual build-deps \
         build-base && \
+    apk add --no-cache \
         linux-headers \
         libxml2-dev \
         make \
