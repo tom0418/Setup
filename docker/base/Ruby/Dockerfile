@@ -1,5 +1,5 @@
-# Build stage just to install node.js, yarn
-FROM buildpack-deps:bullseye AS builder
+# Build stage just to install node.js
+FROM buildpack-deps:bullseye AS node
 
 # install node.js
 ENV NODE_VERSION 16.10.0
@@ -36,10 +36,11 @@ RUN ARCH= && dpkgArch="$(dpkg --print-architecture)" \
   && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
   && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
   && grep " node-v$NODE_VERSION-linux-$ARCH.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
-  && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
-  && bzip2 /usr/local/bin/node
+  && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner
 
-# install yarn
+# Build stage just to install yarn
+FROM buildpack-deps:bullseye AS yarn
+
 ENV YARN_VERSION 1.22.5
 
 RUN set -ex \
@@ -56,28 +57,23 @@ RUN set -ex \
   && mv yarn-v$YARN_VERSION.tar.gz /tmp/
 
 # Base ruby image
-FROM ruby:2.7.4-bullseye
+FROM ruby:3.0.2-bullseye
 
 ENV YARN_VERSION 1.22.5
 
 ENV LANG C.UTF-8
 
 RUN apt-get update -qq \
-  && apt-get install -y build-essential \
+  && apt-get install -y pkg-config \
+                        libxml2-dev \
+                        libxslt1-dev \
                         default-mysql-client \
-                        imagemagick \
-                        apt-transport-https \
   && gem update bundler
 
-COPY --from=builder /usr/local/bin/node.bz2 /usr/local/bin/
-COPY --from=builder /tmp/yarn-v$YARN_VERSION.tar.gz /tmp/
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=yarn /tmp/yarn-v$YARN_VERSION.tar.gz /tmp/
 
-RUN bzip2 -d /usr/local/bin/node.bz2 \
-  && tar -xzf /tmp/yarn-v$YARN_VERSION.tar.gz -C /opt/ \
+RUN tar -xzf /tmp/yarn-v$YARN_VERSION.tar.gz -C /opt/ \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn \
-  && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
-  && rm /tmp/yarn-v$YARN_VERSION.tar.gz \
-  # smoke tests
-  && node --version \
-  && yarn --version
+  && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg
