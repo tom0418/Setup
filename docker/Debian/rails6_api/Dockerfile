@@ -1,6 +1,5 @@
 FROM t0m0418/ruby:3.0.2-bullseye
 
-
 # 必要なパッケージのインストール
 # imagemagick など適宜インストールする
 
