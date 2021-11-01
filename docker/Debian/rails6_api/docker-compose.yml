@@ -1,8 +1,9 @@
 version: '3.8'
 services:
-  db:
+  mysql8:
     build:
       context: ./mysql
+    container_name: "${COMPOSE_PROJECT_NAME}-mysql8"
     ports:
       - '3306:3306'
     environment:
@@ -14,11 +15,14 @@ services:
   api:
     build:
       context: .
+    container_name: "${COMPOSE_PROJECT_NAME}-api"
     command: ./run_server.sh
     ports:
       - '3000:3000'
     environment:
-      - MYSQL_HOST=db
+      - MYSQL_HOST=mysql8
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWORD=password
     volumes:
       - .:/project_name:cached
       - bundle:/usr/local/bundle
