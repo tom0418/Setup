@@ -28,6 +28,10 @@ Docker Compose を使用して Rails6（APIモード） / MySQL 8.0.27 の開発
       host: <%= ENV.fetch('MYSQL_HOST') { 'db' } %>
     ```
 
+1. application.rb の module を作成したいプロジェクトの名前に変更
+
+1. database.yml の development, test の database を手順3に合わせて変更
+
 1. Docker Image を構築
 
     ```shell
