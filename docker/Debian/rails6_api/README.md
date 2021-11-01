@@ -1,6 +1,6 @@
 # 開発環境セットアップ
 
-Docker Compose を使用して Rails6（APIモード） / MySQL5.7 の開発環境をセットアップ〜起動する手順です。
+Docker Compose を使用して Rails6（APIモード） / MySQL 8.0.27 の開発環境をセットアップ〜起動する手順です。
 
 ## はじめに
 
@@ -46,19 +46,8 @@ Docker Compose を使用して Rails6（APIモード） / MySQL5.7 の開発環�
     $ docker compose run --rm api rails webpacker:install
     ```
 
-1. webpacker.yml を編集
-
-    ./config/webpacker.yml の以下項目を、docker-compose.yml で定義したservice 名に合わせて設定してください。
-
-     ```yaml:webpacker.yml
-    dev_server:
-      ...
-      host: webpacker
-      ...
-      ...
-    ```
-
 1. コンテナを立ち上げる
+
     ```shell
     $ docker compose up
     ``````

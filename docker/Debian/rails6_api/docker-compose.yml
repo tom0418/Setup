@@ -11,7 +11,7 @@ services:
       - ./db/mysql:/var/lib/mysql
     networks:
       - default
-  api: &api
+  api:
     build:
       context: .
     command: ./run_server.sh
@@ -19,7 +19,6 @@ services:
       - '3000:3000'
     environment:
       - MYSQL_HOST=db
-      - WEBPACKER_DEV_SERVER_HOST=webpacker
     volumes:
       - .:/project_name:cached
       - bundle:/usr/local/bundle
@@ -34,17 +33,6 @@ services:
       - default
     tmpfs:
       - /tmp
-  webpacker:
-    <<: *api
-    command: bin/webpack-dev-server
-    ports:
-      - '3035:3035'
-    environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-    depends_on:
-      - api
 volumes:
   bundle:
     driver: local
