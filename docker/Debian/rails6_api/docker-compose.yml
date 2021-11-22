@@ -10,8 +10,7 @@ services:
       - MYSQL_ROOT_PASSWORD=password
     volumes:
       - ./db/mysql:/var/lib/mysql
-    networks:
-      - default
+
   api:
     build:
       context: .
@@ -31,12 +30,7 @@ services:
       - rails_cache:/project_name/tmp/cache
     depends_on:
       - db
-    stdin_open: true
-    tty: true
-    networks:
-      - default
-    tmpfs:
-      - /tmp
+
 volumes:
   bundle:
     driver: local
