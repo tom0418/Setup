@@ -6,8 +6,8 @@ services:
     container_name: "${COMPOSE_PROJECT_NAME}-mysql8"
     ports:
       - '3306:3306'
-    environment:
-      - MYSQL_ROOT_PASSWORD=password
+    env_file:
+      - ./env/db.env
     volumes:
       - ./db/mysql:/var/lib/mysql
 
@@ -18,25 +18,19 @@ services:
     command: ./run_server.sh
     ports:
       - '3000:3000'
-    environment:
-      - MYSQL_HOST=mysql8
-      - MYSQL_USERNAME=root
-      - MYSQL_PASSWORD=password
+    env_file:
+      - ./env/api.env
     volumes:
       - .:/project_name:cached
       - bundle:/usr/local/bundle
-      - node_modules:/project_name/node_modules
-      - packs:/project_name/public/packs
       - rails_cache:/project_name/tmp/cache
     depends_on:
       - db
 
 volumes:
+  mysql8:
+    driver: local
   bundle:
-    driver: local
-  node_modules:
-    driver: local
-  packs:
     driver: local
   rails_cache:
     driver: local
