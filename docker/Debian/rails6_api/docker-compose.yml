@@ -23,18 +23,14 @@ services:
     volumes:
       - .:/project_name:cached
       - bundle:/usr/local/bundle
-      - node_modules:/project_name/node_modules
-      - packs:/project_name/public/packs
       - rails_cache:/project_name/tmp/cache
     depends_on:
       - db
 
 volumes:
+  mysql8:
+    driver: local
   bundle:
-    driver: local
-  node_modules:
-    driver: local
-  packs:
     driver: local
   rails_cache:
     driver: local
