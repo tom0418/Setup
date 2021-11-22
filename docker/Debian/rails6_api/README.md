@@ -28,10 +28,6 @@ Docker Compose を使用して Rails6（APIモード） / MySQL 8.0.27 の開発
       host: <%= ENV.fetch('MYSQL_HOST') { 'db' } %>
     ```
 
-1. application.rb の module を作成したいプロジェクトの名前に変更
-
-1. database.yml の development, test の database を手順3に合わせて変更
-
 1. Docker Image を構築
 
     ```shell
@@ -43,11 +39,7 @@ Docker Compose を使用して Rails6（APIモード） / MySQL 8.0.27 の開発
     プロジェクトに合わせて、Gemfile を編集してから以下を実行してください。
 
     ```shell
-    # bundle install
     $ docker compose run --rm api bundle install
-
-    # webpacker install
-    $ docker compose run --rm api rails webpacker:install
     ```
 
 1. コンテナを立ち上げる
