@@ -11,7 +11,6 @@
 | [language_server][language_server] | Language Server |
 | [neovim][neovim] | neovimの設定ファイル |
 | [template][template] | プロジェクト作成時に使用するファイルテンプレート |
-| [zsh][zsh] | zshの設定とか |
 
 [docker]:https://github.com/tom0418/Setup/tree/main/docker
 [dotfiles]:https://github.com/tom0418/Setup/tree/main/dotfiles
