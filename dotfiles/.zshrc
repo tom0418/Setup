@@ -77,7 +77,6 @@ alias branch='git branch'
 alias checkout='git checkout `git branch | fzf-tmux`'
 alias stage='git add'
 alias commit='git commit'
-alias push='git push origin `git branch | fzf-tmux`'
 alias fetch='git fetch --prune'
 alias merge='git merge'
 alias deleteb='git branch -D `git branch | fzf-tmux`'
@@ -117,21 +116,21 @@ alias dcgemrm='docker-compose run --rm web bundle exec gem uninstall'
 alias solarstart='docker start solargraph'
 
 # docker and fzf
-function container() {
+function docker-container() {
   docker ps --format "{{.Names}}"
 }
 
-function containers() {
+function docker-containers() {
   docker container ls -a --format "{{.Names}}"
 }
 
-function volume() {
+function docker-volume() {
   docker volume ls --format "{{.Name}}"
 }
 
-alias da='docker attach `container | fzf-tmux`'
-alias de='docker exec -it `container | fzf-tmux` /bin/bash'
-alias dl='docker logs `container | fzf-tmux`'
-alias dla='docker logs `containers | fzf-tmux`'
-alias drmc='docker container rm `containers | fzf-tmux`'
-alias drmv='docker volume rm `volume | fzf-tmux`'
+alias da='docker attach `docker-container | fzf-tmux`'
+alias de='docker exec -it `docker-container | fzf-tmux` /bin/bash'
+alias dl='docker logs `docker-container | fzf-tmux`'
+alias dla='docker logs `docker-containers | fzf-tmux`'
+alias drmc='docker container rm `docker-containers | fzf-tmux`'
+alias drmv='docker volume rm `docker-volume | fzf-tmux`'
