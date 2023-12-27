@@ -6,6 +6,6 @@
 
 | directory | Linux distribution | Languages | packages |
 |:---------:|:------------------:|:---------:|:--------:|
-| [Ruby][Ruby] | Debian 12 | Ruby（3.1.4） | node.js（18.16.0）, yarn（1.22.19） |
+| [Ruby][Ruby] | Debian 12 | Ruby（3.2.2） | node.js（18.16.0）, yarn（1.22.19） |
 
 [Ruby]:https://github.com/tom0418/Setup/tree/main/docker/base/Ruby

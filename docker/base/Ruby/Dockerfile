@@ -58,7 +58,7 @@ RUN set -ex \
   && mv yarn-v$YARN_VERSION.tar.gz /tmp
 
 # build "ruby" image
-FROM ruby:3.1.4-bookworm
+FROM ruby:3.2.2-bookworm
 
 ENV YARN_VERSION 1.22.19
 
