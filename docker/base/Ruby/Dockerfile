@@ -68,9 +68,8 @@ RUN apt-get update -qq \
   && apt-get install -y pkg-config \
                         libxml2-dev \
                         libxslt1-dev \
-                        default-mysql-client \
   && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* \
   && gem update bundler
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
@@ -80,7 +79,7 @@ RUN tar -xzf /tmp/yarn-v$YARN_VERSION.tar.gz -C /opt/ \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs \
   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn \
   && ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg \
-  && rm /tmp/yarn-v$YARN_VERSION.tar.gz \
+  && rm -rf /tmp/* /var/tmp/* \
   # smoke test
   && node -v \
   && yarn -v \
