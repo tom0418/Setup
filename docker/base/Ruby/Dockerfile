@@ -65,9 +65,10 @@ ENV YARN_VERSION 1.22.19
 ENV LANG C.UTF-8
 
 RUN apt-get update -qq \
-  && apt-get install -y pkg-config \
-                        libxml2-dev \
-                        libxslt1-dev \
+  && apt-get install -y --no-install-recommends \
+             pkg-config \
+             libxml2-dev \
+             libxslt1-dev \
   && apt-get clean \
   && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* \
   && gem update bundler
